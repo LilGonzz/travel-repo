@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db/database.db?connection_limit=1"
+  
+}
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String
+  password String
+  created_at DateTime @default(now())
+  update_at DateTime @default(now())
+
+  @@map("users")
+  travels Travel[]
+
+}
+
+model Travel{
+  id Int @id @default(autoincrement())
+  distanceTime Float?
+  isActive Boolean
+  created_at DateTime @default(now())
+  update_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("travels")
+  user_id Int
+  stops Stop[]
+}
+
+model Stop{
+  id Int @id @default(autoincrement())
+  latitude String
+  longitude String
+  position Int
+  cityName String
+  isReplacedOrDeleted Boolean
+  created_at DateTime @default(now())
+  update_at DateTime @default(now())
+
+  travel Travel @relation(fields: [travel_id], references: [id])
+  
+  @@map("stops")
+  travel_id Int
+}

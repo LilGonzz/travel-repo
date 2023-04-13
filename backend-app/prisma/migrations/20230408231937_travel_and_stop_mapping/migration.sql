@@ -1,0 +1,22 @@
+-- CreateTable
+CREATE TABLE "travels" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "start_point" TEXT NOT NULL,
+    "destiny" TEXT NOT NULL,
+    "traveling_time" DATETIME NOT NULL,
+    "isActive" BOOLEAN NOT NULL,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "user_id" INTEGER NOT NULL,
+    CONSTRAINT "travels_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "stops" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "stop_point" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "travel_id" INTEGER NOT NULL,
+    CONSTRAINT "stops_travel_id_fkey" FOREIGN KEY ("travel_id") REFERENCES "travels" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
